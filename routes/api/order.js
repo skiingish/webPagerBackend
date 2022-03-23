@@ -129,4 +129,38 @@ router.get('/all/active', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/order/all/ready
+// @desc    Get all fulfilled orders that are awaiting collection.
+// @access  Private
+router.get('/all/ready', auth, async (req, res) => {
+  try {
+    const orders = await Order.find({ fulfilled: true, collected: false });
+    if (orders.length > 0) {
+      res.json(orders);
+    } else {
+      return res.status(400).json({ msg: 'There are no orders' });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/order/all/ready
+// @desc    Get all collected orders.
+// @access  Private
+router.get('/all/collected', auth, async (req, res) => {
+  try {
+    const orders = await Order.find({ fulfilled: true, collected: true });
+    if (orders.length > 0) {
+      res.json(orders);
+    } else {
+      return res.status(400).json({ msg: 'There are no orders' });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
