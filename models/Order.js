@@ -6,7 +6,13 @@ const OrderSchema = new mongoose.Schema({
     ref: 'user',
   },
   items: {
-    type: Array,
+    type: [String],
+  },
+  friendlyOrderNo: {
+    type: Number,
+  },
+  name: {
+    type: String,
   },
   fulfilled: {
     type: Boolean,
