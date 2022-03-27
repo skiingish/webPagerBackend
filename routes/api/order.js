@@ -163,4 +163,31 @@ router.get('/all/collected', auth, async (req, res) => {
   }
 });
 
+// @route   DELETE api/order/:id
+// @desc    Delete a order
+// @access  Private
+router.delete('/:id', auth, async (req, res) => {
+  // Delete the required device.
+  try {
+    await Order.deleteOne({ device_id: req.params.id });
+    res.json({ msg: `Deleted Order: ${req.params.id}` });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/order/all
+// @desc    Delete all orders
+// @access  Private
+router.delete('/all', auth, async (req, res) => {
+  // Delete all! (Mass wipe)
+  Order.deleteMany((err) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    } else res.send('Deleted all devices');
+  });
+});
+
 module.exports = router;
