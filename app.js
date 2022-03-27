@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
 var cors = require('cors');
@@ -20,7 +21,7 @@ app.use(express.json({ extended: false }));
 app.use(cors());
 
 // Default Route.
-app.get('/', (req, res) => res.send('API'));
+app.get('/', (req, res) => res.send('YEWW you found me'));
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));
