@@ -66,7 +66,8 @@ router.post('/order/:id', async (req, res) => {
   // ? For testing
   // Create the payload
   const payload = JSON.stringify({
-    title: 'Order Ready From Remote Server',
+    title: 'Thank you',
+    body: 'We will let you know when your order is ready!',
   });
 
   // Set the vapid keys
