@@ -80,10 +80,16 @@ router.get('/:id', async (req, res) => {
 
     if (order.length > 0) {
       const customerOrder = {
+        id: req.params.id,
         items: order[0].items,
         fulfilled: order[0].fulfilled,
       };
       res.json(customerOrder);
+      // res.render('index.ejs', {
+      //   orderId: customerOrder.id,
+      //   items: customerOrder.items,
+      //   status: customerOrder.fulfilled,
+      // });
     } else {
       return res.status(400).json({ msg: 'There is no matching order' });
     }
