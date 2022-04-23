@@ -32,6 +32,9 @@ const OrderSchema = new mongoose.Schema({
   privateVapid: {
     type: String,
   },
+  subscription: {
+    type: Object,
+  },
 });
 
 module.exports = mongoose.model('orders', OrderSchema);
