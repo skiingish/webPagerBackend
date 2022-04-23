@@ -10,7 +10,7 @@ const { check, validationResult } = require('express-validator');
 const Order = require('../../models/Order');
 const User = require('../../models/User');
 
-// @route   GET api/order/:id
+// @route   GET api/subscribe/order/:id
 // @desc    Get the subscibe public key for a order.
 // @access  Public
 router.get('/order/:id', async (req, res) => {
@@ -30,15 +30,19 @@ router.get('/order/:id', async (req, res) => {
       returnOriginal: false,
     });
 
+    const orderResponse = {
+      publicVapid: order.publicVapid,
+    };
+
     // Send back the order.
-    res.json(order);
+    res.json(orderResponse);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   POST api/order/:id
+// @route   POST api/subscribe/order/:id
 // @desc    Post back the service worker subscription.
 // @access  Public
 router.post('/order/:id', async (req, res) => {
@@ -64,6 +68,7 @@ router.post('/order/:id', async (req, res) => {
 
   // Store the subscription
   // ? For testing
+
   // Create the payload
   const payload = JSON.stringify({
     title: 'Thank you',

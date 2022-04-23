@@ -2,6 +2,7 @@ const express = require('express');
 const request = require('request');
 const config = require('config');
 const router = express.Router();
+const webpush = require('web-push');
 var mongoose = require('mongoose');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -45,7 +46,30 @@ router.patch('/fulfill/:id', auth, async (req, res) => {
       returnOriginal: false,
     });
 
-    res.json(order);
+    //
+    if (req.body.fulfilled && order.publicVapid) {
+      // Set the payload
+      const payload = JSON.stringify({
+        title: 'Order Ready!',
+        body: 'Your order is ready, please come to collect.',
+      });
+
+      // Set the vapid keys
+      webpush.setVapidDetails(
+        'mailto:test@test.com',
+        order.publicVapid,
+        order.privateVapid
+      );
+
+      // Send a web push for to tell customer their order is ready
+      webpush.sendNotification(order.subscription, payload).catch((err) => {
+        console.error(err);
+        return res.json({ msg: 'Order complete, Error Sending Push!' });
+      });
+      res.json({ msg: 'Order complete, Push was sent!' });
+    } else {
+      res.json({ msg: 'Order complete, no push sent' });
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -84,6 +108,7 @@ router.get('/:id', async (req, res) => {
         items: order[0].items,
         fulfilled: order[0].fulfilled,
       };
+
       res.json(customerOrder);
       // res.render('index.ejs', {
       //   orderId: customerOrder.id,
