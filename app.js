@@ -27,6 +27,7 @@ app.get('/', (req, res) => res.send('YEWW you found me'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/order', require('./routes/api/order'));
+app.use('/api/subscribe', require('./routes/api/subscribe'));
 
 // Export app
 module.exports = app;
