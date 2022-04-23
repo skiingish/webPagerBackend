@@ -26,6 +26,12 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  publicVapid: {
+    type: String,
+  },
+  privateVapid: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model('orders', OrderSchema);
